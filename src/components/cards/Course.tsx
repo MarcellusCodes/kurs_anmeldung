@@ -1,9 +1,16 @@
 import React from "react";
-import { Card, Group, ActionIcon } from "@mantine/core";
-import { Users, ClipboardList } from "tabler-icons-react";
-import { SecondaryTitle } from "../index";
+import { Card, Group, ActionIcon, useMantineTheme } from "@mantine/core";
+import { Users, ClipboardList, CalendarEvent } from "tabler-icons-react";
+import { SecondaryTitle, Info, InfoItem, PrimaryButton } from "../index";
 
-const Course = () => {
+interface CourseProps {
+  title: string;
+  date: string;
+  participants: number;
+}
+
+const Course: React.FC<CourseProps> = ({ title, date, participants }) => {
+  const theme = useMantineTheme();
   return (
     <Card shadow="sm" p="lg">
       <Group position="apart">
@@ -11,16 +18,74 @@ const Course = () => {
           sx={(theme) => ({
             color: theme.colors.secondary[0],
           })}
-          title={"Excel Grundlagen"}
+          title={title}
         />
-        <ActionIcon color="red">
+        <ActionIcon variant="light" color="red">
           <ClipboardList />
         </ActionIcon>
       </Group>
-
-      <Button variant="light" color="blue" fullWidth style={{ marginTop: 14 }}>
-        Book classic tour now
-      </Button>
+      <Group direction="column">
+        <Info
+          sx={() => ({
+            marginTop: "1rem",
+            marginBottom: "1rem",
+          })}
+          spacing={"xs"}
+          type="unordered"
+          size="xl"
+        >
+          <InfoItem
+            icon={
+              <CalendarEvent
+                size={24}
+                strokeWidth={2}
+                color={theme.colors.red[6]}
+              />
+            }
+          >
+            Datum: {date}{" "}
+          </InfoItem>
+          <InfoItem
+            icon={
+              <Users size={24} strokeWidth={2} color={theme.colors.red[6]} />
+            }
+          >
+            Teilnehmer: {participants}/10
+          </InfoItem>
+        </Info>
+      </Group>
+      <Group>
+        <PrimaryButton
+          color={"red"}
+          compact={false}
+          disabled={false}
+          fullWidth={false}
+          leftIcon={undefined}
+          loading={false}
+          size={"md"}
+          uppercase={false}
+          type={"button"}
+          variant={"outline"}
+          onClick={() => {}}
+        >
+          Lehrmaterial
+        </PrimaryButton>
+        <PrimaryButton
+          color={"red"}
+          compact={false}
+          disabled={false}
+          fullWidth={false}
+          leftIcon={undefined}
+          loading={false}
+          size={"md"}
+          uppercase={false}
+          type={"button"}
+          variant={"filled"}
+          onClick={() => {}}
+        >
+          Anmelden
+        </PrimaryButton>
+      </Group>
     </Card>
   );
 };

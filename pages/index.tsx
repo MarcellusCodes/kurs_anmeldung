@@ -8,6 +8,7 @@ import {
   PrimaryTitle,
   Info,
   InfoItem,
+  Course,
 } from "../src/components/index";
 import { ShieldLock, Help, Bell, School } from "tabler-icons-react";
 import {
@@ -217,7 +218,7 @@ const Home: NextPage = () => {
               variant={"outline"}
               onClick={() => {}}
             >
-              Plätze
+              Freie
             </PrimaryButton>
           </Group>
           <Space h="4rem" />
@@ -229,7 +230,11 @@ const Home: NextPage = () => {
           />
           <Space h="2rem" />
           <Group>
-            
+            <Course
+              title={"Excel Grundlagen"}
+              date={'11.03.2022'}
+              participants={9}
+            />
           </Group>
         </Container>
       </Container>

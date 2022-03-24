@@ -10,7 +10,7 @@ interface InfoProps {
 
 const Info: React.FC<InfoProps> = ({ children, sx, spacing, type, size }) => {
   return (
-    <List sx={sx} spacing={spacing} type={type} size={size}>
+    <List  sx={sx} spacing={spacing} type={type} size={size}>
       {children}
     </List>
   );
