@@ -1,15 +1,60 @@
 import React from "react";
-import { Card, Group, ActionIcon, useMantineTheme } from "@mantine/core";
+import { Card, Group, ActionIcon, useMantineTheme, Table } from "@mantine/core";
 import { Users, ClipboardList, CalendarEvent } from "tabler-icons-react";
 import { SecondaryTitle, Info, InfoItem, PrimaryButton } from "../index";
+import Link from "next/link";
+import { useModals } from "@mantine/modals";
 
 interface CourseProps {
-  title: string;
-  date: string;
-  participants: number;
+  course: {
+    title: string;
+    date: string;
+    participants: {
+      id: string;
+      name: string;
+      vorname: string;
+      bereich: string;
+      kostenstelle: number;
+    }[];
+    curricula: {
+      id: string;
+      module: string;
+      lesson: number;
+    }[];
+    max_participants: number;
+    difficulty: string;
+    id: string;
+  };
 }
 
-const Course: React.FC<CourseProps> = ({ title, date, participants }) => {
+const Course: React.FC<CourseProps> = ({ course }) => {
+  const modals = useModals();
+  const openCurriculaModal = () => {
+    const id = modals.openModal({
+      title: "Kurs Inhalte",
+      children: (
+        <>
+          <Table>
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th>Unterrichtseinheit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {course.curricula.map((curriculum) => (
+                <tr key={curriculum.id}>
+                  <td>{curriculum.module}</td>
+                  <td>{curriculum.lesson}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </>
+      ),
+    });
+  };
+
   const theme = useMantineTheme();
   return (
     <Card shadow="sm" p="lg">
@@ -18,11 +63,13 @@ const Course: React.FC<CourseProps> = ({ title, date, participants }) => {
           sx={(theme) => ({
             color: theme.colors.secondary[0],
           })}
-          title={title}
+          title={course.title}
         />
-        <ActionIcon variant="light" color="red">
-          <ClipboardList />
-        </ActionIcon>
+        <Link href={`/teilnehmer/${course.id}`} passHref>
+          <ActionIcon variant="light" color="red">
+            <ClipboardList />
+          </ActionIcon>
+        </Link>
       </Group>
       <Group direction="column">
         <Info
@@ -43,14 +90,14 @@ const Course: React.FC<CourseProps> = ({ title, date, participants }) => {
               />
             }
           >
-            Datum: {date}{" "}
+            Datum: {course.date}{" "}
           </InfoItem>
           <InfoItem
             icon={
               <Users size={24} strokeWidth={2} color={theme.colors.red[6]} />
             }
           >
-            Teilnehmer: {participants}/10
+            Teilnehmer: {course.participants.length}/{course.max_participants}
           </InfoItem>
         </Info>
       </Group>
@@ -66,25 +113,27 @@ const Course: React.FC<CourseProps> = ({ title, date, participants }) => {
           uppercase={false}
           type={"button"}
           variant={"outline"}
-          onClick={() => {}}
+          onClick={openCurriculaModal}
         >
           Lehrmaterial
         </PrimaryButton>
-        <PrimaryButton
-          color={"red"}
-          compact={false}
-          disabled={false}
-          fullWidth={false}
-          leftIcon={undefined}
-          loading={false}
-          size={"md"}
-          uppercase={false}
-          type={"button"}
-          variant={"filled"}
-          onClick={() => {}}
-        >
-          Anmelden
-        </PrimaryButton>
+        <Link href={`/anmeldung/${course.id}`} passHref>
+          <PrimaryButton
+            color={"red"}
+            compact={false}
+            disabled={false}
+            fullWidth={false}
+            leftIcon={undefined}
+            loading={false}
+            size={"md"}
+            uppercase={false}
+            type={"button"}
+            variant={"filled"}
+            onClick={() => {}}
+          >
+            Anmelden
+          </PrimaryButton>
+        </Link>
       </Group>
     </Card>
   );

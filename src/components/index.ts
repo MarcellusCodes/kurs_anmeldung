@@ -6,3 +6,4 @@ export { default as SecondaryTitle } from "./typography/SecondaryTitle";
 export { default as Info } from "./list/Info";
 export { default as InfoItem } from "./list/InfoItem";
 export { default as Course } from "./cards/Course";
+export { default as CourseSection } from "./CourseSection";

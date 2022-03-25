@@ -1,1 +1,21 @@
+body {
+  background-color: #f4f6f8 !important;
+}
 
+.mantine-16jln7r:focus {
+  border-color: #fa5252;
+}
+
+.mantine-1g2dl9g:focus {
+  border-color: #fa5252;
+}
+
+.mantine-fq89ir:focus {
+  border-color: #fa5252;
+}
+
+.mantine-fq89ir:focus,
+.mantine-fq89ir:focus-within {
+  outline: none;
+  border-color: #fa5252;
+}

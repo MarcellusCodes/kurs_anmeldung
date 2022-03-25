@@ -1,9 +1,79 @@
-import React from "react";
-import { Container, Title, Group } from "@mantine/core";
+import React, { useState } from "react";
+import {
+  Container,
+  Title,
+  Group,
+  PasswordInput,
+  TextInput,
+  Space,
+} from "@mantine/core";
 import Image from "next/image";
-import { SecondaryTitle } from "../index";
+import Link from "next/link";
+import { SecondaryTitle, NavButton, PrimaryButton } from "../index";
+import { ShieldLock, Help } from "tabler-icons-react";
+import { useModals } from "@mantine/modals";
+import { useForm } from "@mantine/form";
 
 const NavBar: React.FC = ({ children }) => {
+  const [authenticated, setAuthenticated] = useState(false);
+  const modals = useModals();
+
+  const openAdminModal = () => {
+    const id = modals.openModal({
+      title: "Admin",
+      children: (
+        <>
+          {authenticated ? (
+            <>
+              <SecondaryTitle
+                sx={() => ({
+                  marginBottom: "2rem",
+                })}
+                title="Sie sind bereits eingeloggt"
+              />
+              <PrimaryButton
+                color={"red"}
+                compact={false}
+                disabled={false}
+                fullWidth={false}
+                leftIcon={undefined}
+                loading={false}
+                size={"md"}
+                uppercase={false}
+                type={"button"}
+                variant={"filled"}
+                onClick={() => {
+                  modals.closeModal(id);
+                }}
+              >
+                Abmelden
+              </PrimaryButton>
+            </>
+          ) : (
+            <Link href="/admin" passHref>
+              <PrimaryButton
+                color={"red"}
+                compact={false}
+                disabled={false}
+                fullWidth={false}
+                leftIcon={undefined}
+                loading={false}
+                size={"md"}
+                uppercase={false}
+                type={"button"}
+                variant={"filled"}
+                onClick={() => {
+                  modals.closeModal(id);
+                }}
+              >
+                Anmelden
+              </PrimaryButton>
+            </Link>
+          )}
+        </>
+      ),
+    });
+  };
   return (
     <nav>
       <Container
@@ -27,6 +97,18 @@ const NavBar: React.FC = ({ children }) => {
             title={"DRK Rostock - Anmeldung Excel Kurse"}
           />
           {children}
+          <NavButton
+            onClick={openAdminModal}
+            leftIcon={<ShieldLock size={24} strokeWidth={2} color={"white"} />}
+          >
+            Admin
+          </NavButton>
+          <NavButton
+            onClick={() => {}}
+            leftIcon={<Help size={24} strokeWidth={2} color={"white"} />}
+          >
+            Hilfe
+          </NavButton>
         </Group>
       </Container>
     </nav>
