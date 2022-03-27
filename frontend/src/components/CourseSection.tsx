@@ -6,17 +6,17 @@ import { PrimaryTitle, Course, SecondaryTitle } from "./index";
 interface CourseSectionProps {
   title: string;
   courses: {
-    title: string;
-    date: string;
-    participants: {
+    titel: string;
+    datum: string;
+    teilnehmer: {
       id: string;
       name: string;
       vorname: string;
       bereich: string;
       kostenstelle: number;
     }[];
-    max_participants: number;
-    difficulty: string;
+    maximale_teilnehmer: number;
+    schwierigkeitsgrad: string;
     id: string;
   }[];
   difficulty: string;
@@ -28,9 +28,9 @@ const CourseSection: React.FC<CourseSectionProps> = ({
   difficulty,
 }) => {
   const theme = useMantineTheme();
-  const checkCourses = courses.filter(
-    (course) => course.difficulty === difficulty
-  );
+  const checkCourses =
+    courses &&
+    courses.filter((course) => course.schwierigkeitsgrad === difficulty);
   return (
     <>
       <Space h="4rem" />
@@ -40,7 +40,7 @@ const CourseSection: React.FC<CourseSectionProps> = ({
       />
       <Space h="2rem" />
       <Group>
-        {checkCourses.length > 0 ? (
+        {checkCourses && checkCourses.length > 0 ? (
           checkCourses.map((filteredCourse) => (
             <div key={filteredCourse.id}>
               <Course course={filteredCourse} />

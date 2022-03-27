@@ -3,7 +3,23 @@ import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
-import '../src/styles/globals.css'
+import "../src/styles/globals.css";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: true,
+      refetchInterval: 10000,
+    },
+  },
+});
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -40,11 +56,13 @@ export default function App(props: AppProps) {
           },
         }}
       >
-        <ModalsProvider>
-          <NotificationsProvider>
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </ModalsProvider>
+        <QueryClientProvider client={queryClient}>
+          <ModalsProvider>
+            <NotificationsProvider>
+              <Component {...pageProps} />
+            </NotificationsProvider>
+          </ModalsProvider>
+        </QueryClientProvider>
       </MantineProvider>
     </>
   );

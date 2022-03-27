@@ -7,3 +7,6 @@ export { default as Info } from "./list/Info";
 export { default as InfoItem } from "./list/InfoItem";
 export { default as Course } from "./cards/Course";
 export { default as CourseSection } from "./CourseSection";
+export { default as FormTextInput } from "./FormTextInput";
+export { default as CourseInfo } from "./CourseInfo";
+export { default as LayoutContainer } from "./LayoutContainer";

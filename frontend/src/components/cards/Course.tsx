@@ -7,22 +7,22 @@ import { useModals } from "@mantine/modals";
 
 interface CourseProps {
   course: {
-    title: string;
-    date: string;
-    participants: {
+    titel: string;
+    datum: string;
+    teilnehmer: {
       id: string;
       name: string;
       vorname: string;
       bereich: string;
       kostenstelle: number;
     }[];
-    curricula: {
+    lehrplan: {
       id: string;
-      module: string;
-      lesson: number;
+      modul: string;
+      dauer: number;
     }[];
-    max_participants: number;
-    difficulty: string;
+    maximale_teilnehmer: number;
+    schwierigkeitsgrad: string;
     id: string;
   };
 }
@@ -42,10 +42,10 @@ const Course: React.FC<CourseProps> = ({ course }) => {
               </tr>
             </thead>
             <tbody>
-              {course.curricula.map((curriculum) => (
+              {course.lehrplan.map((curriculum) => (
                 <tr key={curriculum.id}>
-                  <td>{curriculum.module}</td>
-                  <td>{curriculum.lesson}</td>
+                  <td>{curriculum.modul}</td>
+                  <td>{curriculum.dauer}</td>
                 </tr>
               ))}
             </tbody>
@@ -63,7 +63,7 @@ const Course: React.FC<CourseProps> = ({ course }) => {
           sx={(theme) => ({
             color: theme.colors.secondary[0],
           })}
-          title={course.title}
+          title={course.titel}
         />
         <Link href={`/teilnehmer/${course.id}`} passHref>
           <ActionIcon variant="light" color="red">
@@ -90,14 +90,14 @@ const Course: React.FC<CourseProps> = ({ course }) => {
               />
             }
           >
-            Datum: {course.date}{" "}
+            Datum: {course.datum}{" "}
           </InfoItem>
           <InfoItem
             icon={
               <Users size={24} strokeWidth={2} color={theme.colors.red[6]} />
             }
           >
-            Teilnehmer: {course.participants.length}/{course.max_participants}
+            Teilnehmer: {course.teilnehmer.length}/{course.maximale_teilnehmer}
           </InfoItem>
         </Info>
       </Group>
@@ -117,11 +117,16 @@ const Course: React.FC<CourseProps> = ({ course }) => {
         >
           Lehrmaterial
         </PrimaryButton>
+
         <Link href={`/anmeldung/${course.id}`} passHref>
           <PrimaryButton
             color={"red"}
             compact={false}
-            disabled={false}
+            disabled={
+              course.teilnehmer.length === course.maximale_teilnehmer
+                ? true
+                : false
+            }
             fullWidth={false}
             leftIcon={undefined}
             loading={false}
@@ -131,7 +136,9 @@ const Course: React.FC<CourseProps> = ({ course }) => {
             variant={"filled"}
             onClick={() => {}}
           >
-            Anmelden
+            {course.teilnehmer.length === course.maximale_teilnehmer
+              ? "Kurs Voll"
+              : "Anmelden"}
           </PrimaryButton>
         </Link>
       </Group>
